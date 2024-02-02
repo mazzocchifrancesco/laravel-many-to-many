@@ -17,22 +17,22 @@ class TypeSeeder extends Seeder
             [
                 'name' => 'arte',
                 'description' => 'progetti artistici',
-                'image' => 'prova.jpg'
+                'image' => 'https://normanno.com/N0rm4nn0/wp-content/uploads/2016/07/arte-colori.jpg'
             ],
             [
                 'name' => 'tech',
                 'description' => 'progetti tecnologici',
-                'image' => 'prova.jpg'
+                'image' => 'https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg'
             ],
             [
                 'name' => 'sociale',
                 'description' => 'progetti per il sociale',
-                'image' => 'prova.jpg'
+                'image' => 'https://www.contributipmi.it/wp-content/uploads/2018/02/societa-servizi.jpg'
             ],
             [
                 'name' => 'botanica',
                 'description' => 'progetti per il verde comune',
-                'image' => 'prova.jpg'
+                'image' => 'https://www.atlantedelleprofessioni.it/var/ezdemo_site/storage/images/_aliases/hero/2/2/9/3/83922-7-ita-IT/Botanico.jpg'
             ]
         ];
 
