@@ -30,7 +30,6 @@
 								<p class="fw-light">{{ $project->description }}</p>
 								<p class="fw-bold">{{ $project->supervisor }}</p>
 								<p class=""><strong>data creazione:</strong> {{ $project->creation_date }}</p>
-                                
 								<p>Tipo: <a href="{{ route('admin.type.show', $project->type->id) }}" class="card-subtitle mb-2 text-muted fw-bolder">{{ $project->type ? $project->type->name : 'senza tipo' }}</a></p>
 
                                 

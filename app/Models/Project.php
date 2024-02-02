@@ -14,11 +14,16 @@ class Project extends Model
         "description",
         "image",
         "creation_date",
-        "supervisor"
+        "supervisor",
+        "type_id" //aggiunta foireign key in fillable altrimenti seeder non va
     ];
 
     public function type()
     {
         return $this->belongsTo(Type::class);
+    }
+    public function technologies()
+    {
+        return $this->belongsToMany(Technology::class);
     }
 }
