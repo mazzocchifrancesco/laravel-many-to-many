@@ -30,7 +30,7 @@
 								<p class="fw-light">{{ $project->description }}</p>
 								<p class="fw-bold">{{ $project->supervisor }}</p>
 								<p class=""><strong>data creazione:</strong> {{ $project->creation_date }}</p>
-								<p>Tipo: <a href="{{ route('admin.type.show', $project->type->id) }}" class="card-subtitle mb-2 text-muted fw-bolder">{{ $project->type ? $project->type->name : 'senza tipo' }}</a></p>
+								<p>Tipo: <a href="{{ route('admin.type.show', $project->type ? $project->type->id : '') }}" class="card-subtitle mb-2 text-muted fw-bolder">{{ $project->type ? $project->type->name : 'senza tipo' }}</a></p>
 								@if (count($project->technologies) > 0)
 								<ul>
 									@foreach ($project->technologies as $technology)

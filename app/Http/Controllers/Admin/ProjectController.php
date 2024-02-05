@@ -97,7 +97,11 @@ class ProjectController extends Controller
     {
         $dati_validati = $request->validated();
         $project->update($dati_validati);
-        $project->technologies()->attach($request->technologies);
+
+
+        if ($request->technologies) {
+            $project->technologies()->sync($request->technologies);
+        } //if per check?
         return redirect()->route('admin.projects.show', $project->id);
     }
 
