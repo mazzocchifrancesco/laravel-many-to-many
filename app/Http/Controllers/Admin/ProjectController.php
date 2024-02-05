@@ -101,7 +101,7 @@ class ProjectController extends Controller
 
         if ($request->technologies) {
             $project->technologies()->sync($request->technologies);
-        } //if per check?
+        }
         return redirect()->route('admin.projects.show', $project->id);
     }
 

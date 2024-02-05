@@ -57,9 +57,12 @@
 			<div class="mb-3">
 				<label for="type_id" class="form-label">seleziona un tipo</label>
 				<select name="type_id" id="type_id" class="form-select">
-					<option selected value="">seleziona una tipo</option>
 					@foreach ($types as $type)
+					@if ($project->types==$type)
+					<option selected value="{{ $type->id }}">{{ $type->name }}</option>
+					@else
 						<option value="{{ $type->id }}">{{ $type->name }}</option>
+					@endif
 					@endforeach
 				</select>
 			</div>
@@ -69,8 +72,12 @@
 				<select multiple name="technologies[]" id="technologies" class="form-select">
 					<option selected value="">seleziona almeno una tech</option>
 					@foreach ($technologies as $technology)
+					@if ($project->technologies->contains($technology))
+					<option selected value="{{ $technology->id }}">{{ $technology->name }}</option>
+					@else
 						<option value="{{ $technology->id }}">{{ $technology->name }}</option>
-					@endforeach
+					@endif
+						@endforeach
 				</select>
 			</div>
 			<button type="submit" class="btn btn-primary">Modifica</button>
