@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Project;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\ProjectRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Technology;
+use App\Models\Type;
 
 
 class ProjectController extends Controller
@@ -14,26 +14,27 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // todo ELIMINA 
+    // public function validation($data)
+    // {
+    //     $validated = validator::make(
 
-    public function validation($data)
-    {
-        $validated = validator::make(
+    //         $data,
+    //         [
+    //             'name' => "required | max:50",
+    //             'description' => "required",
+    //             'image' => "required | max:200",
+    //             'creation_date' => "required",
+    //             'supervisor' => "required | max:50",
+    //             'technology' => ""
+    //         ],
+    //         [
+    //             'title.required' => 'devi inserire un titolo'
+    //         ]
 
-            $data,
-            [
-                'name' => "required | max:50",
-                'description' => "required",
-                'image' => "required | max:200",
-                'creation_date' => "required",
-                'supervisor' => "required | max:50",
-            ],
-            [
-                'title.required' => 'devi inserire un titolo'
-            ]
-
-        )->validate();
-        return $validated;
-    }
+    //     )->validate();
+    //     return $validated;
+    // }
 
     public function index()
     {
@@ -46,22 +47,27 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $types = Type::all();
+        $technologies = Technology::all();
         $data = Project::all();
 
-        return view("admin.projects.create", compact("data"));
+        return view("admin.projects.create", compact("data", "technologies", "types"));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProjectRequest $request)
+    public function store(ProjectRequest $request)
     {
-        $data = $request->all();
-        $dati_validati = $this->validation($data);
+        // $data = $request->all();
 
+        $dati_validati = $request->validated();
         $project = new Project();
         $project->fill($dati_validati);
         $project->save();
+        if ($request->technologies) {
+            $project->technologies()->attach($request->technologies);
+        }
 
         return redirect()->route('admin.projects.index', $project->id);
     }
@@ -79,17 +85,19 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view("admin.projects.edit", compact("project"));
+        $types = Type::all();
+        $technologies = Technology::all();
+        return view("admin.projects.edit", compact("project", "technologies", "types"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(ProjectRequest $request, Project $project)
     {
-        $data = $request->all();
-        $dati_validati = $this->validation($data);
+        $dati_validati = $request->validated();
         $project->update($dati_validati);
+        $project->technologies()->attach($request->technologies);
         return redirect()->route('admin.projects.show', $project->id);
     }
 

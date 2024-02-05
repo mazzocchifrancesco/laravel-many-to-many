@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostRequest extends FormRequest
+class ProjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +27,8 @@ class PostRequest extends FormRequest
             'image' => ["required", "max:200"],
             'creation_date' => ["required"],
             'supervisor' => ["required", "max:50"],
+            "type_id" => ["required", "exists:types,id"],
+            "technologies" => ["exists:technologies,id"],
 
         ];
     }
