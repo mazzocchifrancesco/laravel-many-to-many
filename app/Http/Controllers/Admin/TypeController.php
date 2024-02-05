@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Type;
-use App\Http\Requests\StoreTypeRequest;
-use App\Http\Requests\UpdateTypeRequest;
+use App\Http\Requests\TypeRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,23 +12,23 @@ class TypeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function validation($data)
-    {
-        $validated = validator::make(
+    // public function validation($data)
+    // {
+    //     $validated = validator::make(
 
-            $data,
-            [
-                'name' => "required | max:50",
-                'description' => "required",
-                'image' => "required | max:200",
-            ],
-            [
-                'title.required' => 'devi inserire un titolo'
-            ]
+    //         $data,
+    //         [
+    //             'name' => "required | max:50",
+    //             'description' => "required",
+    //             'image' => "required | max:200",
+    //         ],
+    //         [
+    //             'title.required' => 'devi inserire un titolo'
+    //         ]
 
-        )->validate();
-        return $validated;
-    }
+    //     )->validate();
+    //     return $validated;
+    // }
 
     public function index()
     {
@@ -50,14 +49,15 @@ class TypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTypeRequest $request)
+    public function store(TypeRequest $request)
     {
-        $data = $request->all();
-        $dati_validati = $this->validation($data);
-
+        $dati_validati = $request->validated();
         $type = new Type();
         $type->fill($dati_validati);
         $type->save();
+        if ($request->technologies) {
+            $type->technologies()->attach($request->technologies);
+        }
 
         return redirect()->route('admin.type.index', $type->id);
     }
@@ -75,17 +75,22 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
+        // se seleziono la vista type va al plurale perchè è nella cartella types, altrimenti per type le rotte sono al singolare
         return view("admin.types.edit", compact("type"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTypeRequest $request, Type $type)
+    public function update(TypeRequest $request, Type $type)
     {
-        $data = $request->all();
-        $dati_validati = $this->validation($data);
+        $dati_validati = $request->validated();
         $type->update($dati_validati);
+
+
+        if ($request->technologies) {
+            $type->technologies()->sync($request->technologies);
+        }
         return redirect()->route('admin.type.show', $type->id);
     }
 
